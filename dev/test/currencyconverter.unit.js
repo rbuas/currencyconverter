@@ -117,7 +117,7 @@ describe("unit.currencyconverter", function() {
 
     describe("ConvertFromFile", function() {
         var cases = [
-            {i:ROOT_DIR + "/test/inputtest.txt", r:undefined},
+            {i:ROOT_DIR + "/test/inputtest.txt", r:59033},
             {i:ROOT_DIR + "/test/inputtest.1.txt", r:663},
             {i:ROOT_DIR + "/test/inputtest.2.txt", r:456},
         ];
@@ -142,6 +142,5 @@ describe("unit.currencyconverter", function() {
                 });
             });
         });
-        
     });
 });
