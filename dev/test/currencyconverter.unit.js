@@ -115,9 +115,11 @@ describe("unit.currencyconverter", function() {
         
     });
 
-    describe.only("ConvertFromFile", function() {
+    describe("ConvertFromFile", function() {
         var cases = [
             {i:ROOT_DIR + "/test/inputtest.txt", r:undefined},
+            {i:ROOT_DIR + "/test/inputtest.1.txt", r:663},
+            {i:ROOT_DIR + "/test/inputtest.2.txt", r:456},
         ];
 
         afterEach(function(done) {
@@ -134,7 +136,7 @@ describe("unit.currencyconverter", function() {
                 var expectedResponse = caseConfig.r;
 
                 CC.ConvertFromFile(cFile)
-                .then(function(suc, err) {
+                .then(function(converted, err) {
                     expect(converted).to.be.equal(expectedResponse);
                     done();
                 });
