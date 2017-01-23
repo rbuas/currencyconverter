@@ -1,0 +1,21 @@
+Create a little program to convert a value by the given exchanges rates.
+
+Functionalities : 
+- read an input file
+- parse the given file format
+- calculate the value with four decimal places precision but return it as integer
+
+Requirements : 
+- run as "LuccaDevises <path to file input>"
+- file format :
+D1;M;D2     //D1 : starting currency: M : ammount to convert; D2 : ending currency
+LCOUNT      //Lines count
+DD;DA;T     //DD : starting currency; DA : ending currency; T : exchange rate
+- return interger
+
+Non functionals requirements : 
+- project maintainability
+- code readability
+- code extensibility
+- code non-repeatability
+- code homogeneity

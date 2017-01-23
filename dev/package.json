@@ -1,0 +1,20 @@
+{
+  "name": "currencyconverter",
+  "version": "1.0.0",
+  "description": "A currency converter codded in nodejs",
+  "main": "main.js",
+  "scripts": {
+    "start": "main.js",
+    "test": "./node_modules/mocha/bin/_mocha ./tests/*.js"
+  },
+  "author": "Rodrigo Buas",
+  "license": "MIT",
+  "dependencies": {
+    "mathjs": "^3.8.1",
+    "yargs": "^4.8.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}

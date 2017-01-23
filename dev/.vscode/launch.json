@@ -1,0 +1,41 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/main.js",
+            "stopOnEntry": true,
+            "args": ["${workspaceRoot}/test/inputtest.txt"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": ["--nolazy"],
+            "env": {
+                "NODE_ENV": "development",
+                "NODE_PATH": "$(pwd)"
+            },
+            "sourceMaps": false,
+            "outDir": null
+        },
+        {
+            "name": "Tests",
+            "type": "node",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "stopOnEntry": false,
+            "args": ["./tests/*.js", "--no-timeouts", "--colors"],
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": null
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attacher au processus",
+            "port": 5858
+        }
+    ]
+}
