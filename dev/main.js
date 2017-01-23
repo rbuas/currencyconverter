@@ -9,5 +9,7 @@ if(!fileinput) {
     return;
 }
 
-var converted = CC.LoadInputFile(fileinput);
-console.log(converted);
+CC.ConvertFromFile(fileinput).then(function(converted, err){
+    console.log(converted);
+    if(err) console.log(err);
+});
