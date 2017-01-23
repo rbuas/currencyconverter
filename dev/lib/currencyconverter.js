@@ -33,15 +33,10 @@ CurrencyConverter.ParseInputText = function(inputText) {
 CurrencyConverter.Convert = function(value, fromCurrency, toCurrency, exchanges, precision) {
     var self = this;
     if(!value)
-        return value;
+        return;
 
-    precision = precision || 4;
-    var rate = self.GetExchangeRate(fromCurrency, toCurrency, exchanges);
-    if(!rate) {
-        var inverse = self.GetExchangeRate(toCurrency, fromCurrency, exchanges);
-        if(inverse) rate = math.round(1 / inverse, precision);
-    }
-    if(!rate)
+    var rate = self.GetExchangeRate(fromCurrency, toCurrency, exchanges, precision);
+    if(rate === undefined || rate === null)
         return;
 
     return math.round(value * rate, 0);
@@ -54,11 +49,22 @@ CurrencyConverter.Convert = function(value, fromCurrency, toCurrency, exchanges,
  * @param {Object} exchanges Formatted as {[DD]:{DA:T}}
  * @return {Promise}
  */
-CurrencyConverter.GetExchangeRate = function(fromCurrency, toCurrency, exchanges) {
+CurrencyConverter.GetExchangeRate = function(fromCurrency, toCurrency, exchanges, precision) {
     var self = this;
     if(!fromCurrency || !toCurrency || !exchanges)
         return;
 
+    fromCurrency = fromCurrency.toUpperCase();
+    toCurrency = toCurrency.toUpperCase();
+    precision = precision === undefined || precision === null ? 4 : precision;
+    if(fromCurrency == toCurrency)
+        return 1.0;
+
+
     var rate = exchanges && exchanges[fromCurrency] && exchanges[fromCurrency][toCurrency];
-    return rate;
+    if(rate === undefined || rate === null) {
+        var inverse = exchanges && exchanges[toCurrency] && exchanges[toCurrency][fromCurrency];
+        if(inverse) rate = math.round(1 / inverse, precision);
+    }
+    return rate && math.round(rate, precision);
 }
