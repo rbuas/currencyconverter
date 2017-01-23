@@ -1,16 +1,26 @@
 var fs = require("fs");
+var path = require("path");
 var math = require("mathjs");
 
 module.exports = CurrencyConverter = {};
 
 
 /**
- * Load an input file from filename
+ * Convert operation loaded from an input file
  * @param {String} filename local full filename
   * @return {Promise}
  */
-CurrencyConverter.LoadInputFile = function(filename) {
-    //TODO
+CurrencyConverter.ConvertFromFile = function(filename) {
+    var self = this;
+    filename = filename && path.normalize(filename);
+    if(!filename)
+        return Promise.reject(new Error('Missing filename'));;
+
+    var filecontent = fs.readFileSync(filename, 'utf8');
+    if(!filecontent)
+        return Promise.reject(new Error('Error on read file from ' + filename));
+
+    return self.ParseInputText(filecontent);
 }
 
 /**
@@ -19,7 +29,49 @@ CurrencyConverter.LoadInputFile = function(filename) {
  * @return {Promise}
  */
 CurrencyConverter.ParseInputText = function(inputText) {
-    //TODO
+    var self = this;
+    if(!inputText)
+        return Promise.reject(new Error('Error on read input text'));
+
+    return new Promise(function(resolve, reject) {
+        var text = inputText;
+        var textLines = text.split("\n");
+        if(!textLines || !textLines.length)
+            return reject(new Error('Error empty lines'));
+
+        var convCmd = textLines.length > 1 && textLines[0].trim();
+        if(!convCmd)
+            return reject(new Error('Error no convertion command line.'));
+
+        var commandArgs = convCmd.split(";");
+        if(!commandArgs || commandArgs.length != 3)
+            return reject(new Error('Error bad formatted command line, params count : ' + (commandArgs.length || 0) + '.'));
+
+        var cFrom = commandArgs[0].trim();
+        var value = Number(commandArgs[1].trim());
+        var cTo = commandArgs[2].trim();
+        var exchanges = {}; //TODO : get lines DD;DA;T => {[DD]:{[DA]:T}}
+        for(var i = 2; i < textLines.length; ++i) {
+            var line = textLines[i].trim();
+            if(!line)
+                return reject(new Error('Error bad formatted exchange line :  ' + (line || "") + '.'));
+
+            var lineArgs = line.split(";");
+            if(!lineArgs || lineArgs.length != 3)
+                return reject(new Error('Error bad formatted exchange line :  ' + (line || "") + '.'));
+
+            var cf = lineArgs[0].trim();
+            var ct = lineArgs[1].trim();
+            var cv = Number(lineArgs[2].trim());
+            if(!cf || !ct || cv === undefined || cv === null)
+                return reject(new Error('Error bad formatted exchange line :  ' + (line || "") + '.'));
+
+            exchanges[cf] = exchanges[cf] || {};
+            exchanges[cf][ct] = cv;
+        }
+        var converted = self.Convert(value, cFrom, cTo, exchanges);
+        return resolve(converted);
+    });
 }
 
 /**
