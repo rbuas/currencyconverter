@@ -68,7 +68,7 @@ describe("unit.currencyconverter", function() {
     });
 
 
-     describe("Convert", function() {
+    describe("Convert", function() {
         var cases = [
             {v:1, r:undefined},
             {v:1, f:"AUD", t:"CHF", r:undefined},
@@ -110,6 +110,34 @@ describe("unit.currencyconverter", function() {
 
                 expect(converted).to.be.equal(expectedResponse);
                 done();
+            });
+        });
+        
+    });
+
+    describe.only("ConvertFromFile", function() {
+        var cases = [
+            {i:ROOT_DIR + "/test/inputtest.txt", r:undefined},
+        ];
+
+        afterEach(function(done) {
+            done();
+        });
+
+        beforeEach(function(done) {
+            done();
+        });
+
+        cases.forEach(function(caseConfig, index) {
+            it("case-" + index, function(done) {
+                var cFile = caseConfig.i;
+                var expectedResponse = caseConfig.r;
+
+                CC.ConvertFromFile(cFile)
+                .then(function(suc, err) {
+                    expect(converted).to.be.equal(expectedResponse);
+                    done();
+                });
             });
         });
         
