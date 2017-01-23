@@ -8,7 +8,7 @@ SPRINT 1 (6)[6]: V0.1
 - H02 (1)[1][1] : write tha currency converter api
 - H03 (3)[3] : create a library currency converter
 - H04 (1)[1.5] : create the test
-- H05 (0.5)[] : close the version and the sprint then publicate into a repository
+- H05 (0.5)[0] : close the version and the sprint then publicate into a repository
 
 SPRINT 2 (6)[]: V0.2
 - H06 (3.5)[] : create the input file reader
