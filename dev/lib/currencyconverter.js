@@ -31,7 +31,20 @@ CurrencyConverter.ParseInputText = function(inputText) {
  * @return {Promise}
  */
 CurrencyConverter.Convert = function(value, fromCurrency, toCurrency, exchanges, precision) {
-    //TODO
+    var self = this;
+    if(!value)
+        return value;
+
+    precision = precision || 4;
+    var rate = self.GetExchangeRate(fromCurrency, toCurrency, exchanges);
+    if(!rate) {
+        var inverse = self.GetExchangeRate(toCurrency, fromCurrency, exchanges);
+        if(inverse) rate = math.round(1 / inverse, precision);
+    }
+    if(!rate)
+        return;
+
+    return math.round(value * rate, 0);
 }
 
 /**
@@ -42,5 +55,10 @@ CurrencyConverter.Convert = function(value, fromCurrency, toCurrency, exchanges,
  * @return {Promise}
  */
 CurrencyConverter.GetExchangeRate = function(fromCurrency, toCurrency, exchanges) {
-    //TODO
+    var self = this;
+    if(!fromCurrency || !toCurrency || !exchanges)
+        return;
+
+    var rate = exchanges && exchanges[fromCurrency] && exchanges[fromCurrency][toCurrency];
+    return rate;
 }
